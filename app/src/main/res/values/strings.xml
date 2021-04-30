@@ -3,4 +3,12 @@
     <string name="title_map">Map</string>
     <string name="title_bookmark">Bookmark</string>
     <string name="title_settings">Settings</string>
+
+    <!-- Preference -->
+    <string name="dark_mode_title">Dark Mode</string>
+    <string name="dark_mode_summary">Toggle Dark Mode</string>
+    <string name="delete_data_title">Delete Data</string>
+    <string name="delete_data_summary">Delete App Data From Phone</string>
+
+
 </resources>

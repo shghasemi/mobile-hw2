@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="dark_mode"
+        app:title="@string/dark_mode_title"
+        app:summary="@string/dark_mode_summary"
+        app:defaultValue="false"/>
+
+    <Preference
+        app:key="delete_data"
+        app:title="@string/delete_data_title"
+        app:summary="@string/delete_data_summary"/>
+
+</PreferenceScreen>
