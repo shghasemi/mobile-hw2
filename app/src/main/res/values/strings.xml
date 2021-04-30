@@ -9,6 +9,7 @@
     <string name="dark_mode_summary">Toggle Dark Mode</string>
     <string name="delete_data_title">Delete Data</string>
     <string name="delete_data_summary">Delete App Data From Phone</string>
+    <string name="delete_data_confirm">Are you sure you want to delete app data?</string>
 
 
 </resources>
