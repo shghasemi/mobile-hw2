@@ -13,5 +13,6 @@
     <string name="longitude">longitude:</string>
     <string name="latitude">latitude:</string>
 
-
+    <!-- mapbox -->
+    <string name="mapbox_access_token">pk.eyJ1IjoidGh1bmRlcmphdyIsImEiOiJja282OXh4ZTMyMTJwMnBtdnAxNXJxcDZkIn0.C6B0WI6X-3aDaus7HIwz1A</string>
 </resources>
