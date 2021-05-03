@@ -1,7 +1,10 @@
 package com.example.mobile_hw2.ui.settings;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +31,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference darkMode = findPreference("dark_mode");
         darkMode.setOnPreferenceChangeListener((preference, newValue) -> {
             switch_dark_mode((Boolean) newValue);
+
+            // Update property in shared value
+            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("dark_mode", (Boolean) newValue);
+            editor.apply();
             return true;
         });
     }
@@ -43,10 +52,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private void deleteData() {
         new AlertDialog.Builder(getContext())
                 .setTitle(R.string.delete_data_title)
-                .setMessage(R.string.delete_data_confirm) //.setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(R.string.delete_data_confirm)
                 .setPositiveButton("Yes", (dialog, whichButton) -> {
                     // TODO: clear data
-                    Toast.makeText(getContext(),"Deleted", Toast.LENGTH_SHORT).show();;
+                    Toast.makeText(getContext(),"Deleted", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("No", null).show();
     }
