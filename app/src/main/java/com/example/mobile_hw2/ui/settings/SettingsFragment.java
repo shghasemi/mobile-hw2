@@ -14,6 +14,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.mobile_hw2.R;
+import com.example.mobile_hw2.ui.bookmark.BookmarkDbHelper;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -54,7 +55,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 .setTitle(R.string.delete_data_title)
                 .setMessage(R.string.delete_data_confirm)
                 .setPositiveButton("Yes", (dialog, whichButton) -> {
-                    // TODO: clear data
+                    new BookmarkDbHelper(getContext()).truncate(); // TODO: can we move this to handler?
                     Toast.makeText(getContext(),"Deleted", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("No", null).show();

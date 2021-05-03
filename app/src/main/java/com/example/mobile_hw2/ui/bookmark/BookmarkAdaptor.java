@@ -1,25 +1,28 @@
 package com.example.mobile_hw2.ui.bookmark;
 
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobile_hw2.R;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookmarkAdaptor extends RecyclerView.Adapter<BookmarkViewHolder> {
 
-    private final List<Bookmark> marks;
+    private List<Bookmark> marks;
+    private final BookMarkViewHandler bookMarkViewHandler;
 
-    public BookmarkAdaptor() {
-        marks = new ArrayList<Bookmark>() {{
-            add(new Bookmark("Home", 35.11, 41.11f));
-            add(new Bookmark("Work", 35.11, 41.11f));
-            add(new Bookmark("School", 35.11, 41.11f));
-            }};
+    public BookmarkAdaptor(List<Bookmark> marks, BookMarkViewHandler bookMarkViewHandler) {
+        this.marks = marks;
+        this.bookMarkViewHandler = bookMarkViewHandler;
+        bookMarkViewHandler.setAdaptor(this);
+    }
+
+    public void updateMarks(List<Bookmark> marks) {
+        this.marks = marks;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -32,10 +35,19 @@ public class BookmarkAdaptor extends RecyclerView.Adapter<BookmarkViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
-        Bookmark bookmark = marks.get(position);
+        final Bookmark bookmark = marks.get(position);
         holder.longitude.setText(String.valueOf(bookmark.getLongitude()));
         holder.latitude.setText(String.valueOf(bookmark.getLatitude()));
         holder.title.setText(bookmark.getTitle());
+
+        holder.deleteButton.setOnClickListener(v -> {
+            Message message = new Message();
+            message.what = BookMarkViewHandler.DELETE_DATA;
+            message.obj = bookmark;
+            bookMarkViewHandler.sendMessage(message);
+            marks.remove(position);
+            notifyDataSetChanged();
+        });
     }
 
     @Override

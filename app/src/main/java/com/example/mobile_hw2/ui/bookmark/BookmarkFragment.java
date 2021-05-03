@@ -1,19 +1,14 @@
 package com.example.mobile_hw2.ui.bookmark;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,16 +18,43 @@ public class BookmarkFragment extends Fragment {
 
     private RecyclerView marksView;
     private SearchView searchView;
+    private BookmarkDbHelper dbHelper;
+    private BookMarkViewHandler handler;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        dbHelper = new BookmarkDbHelper(getContext());
+        handler = new BookMarkViewHandler(dbHelper);
         View view = inflater.inflate(R.layout.fragment_bookmark, container, false);
         marksView = view.findViewById(R.id.bookmarks);
         searchView = view.findViewById(R.id.search);
-        marksView.setAdapter(new BookmarkAdaptor());
+        BookmarkAdaptor bookmarkAdaptor = new BookmarkAdaptor(dbHelper.getAllMatched(null), handler);
+        marksView.setAdapter(bookmarkAdaptor);
         marksView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         marksView.setHasFixedSize(false);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                updateData(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                updateData(newText);
+                return false;
+            }
+
+            private void updateData(String query) {
+                Message message = new Message();
+                message.what = BookMarkViewHandler.UPDATE_DATA;
+                message.obj = query;
+                handler.sendMessage(message);
+            }
+        });
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         return view;
