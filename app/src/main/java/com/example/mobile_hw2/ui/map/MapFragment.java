@@ -1,6 +1,7 @@
 package com.example.mobile_hw2.ui.map;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import com.example.mobile_hw2.R;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
@@ -38,8 +42,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
         View root = inflater.inflate(R.layout.fragment_map, container, false);
 
         mapView = (MapView) root.findViewById(R.id.mapView);
-
         mapView.getMapAsync(this);
+
+        root.findViewById(R.id.usrLocBtn).setOnClickListener(this::zoomOnUser);
         return root;
     }
 
@@ -104,6 +109,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
             permissionsManager.requestLocationPermissions(getActivity());
         }
     }
-
     //todo onpause, onstop, ... needed?
+
+    public void zoomOnUser(View view) {
+        // Check if permissions are enabled and if not request
+        if (PermissionsManager.areLocationPermissionsGranted(getActivity())) {
+            double latitude = mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude();
+            double longitude = mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude();
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(latitude, longitude))
+                    .zoom(15)
+                    .tilt(20)
+                    .build();
+            mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000);
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(getActivity());
+        }
+    }
 }

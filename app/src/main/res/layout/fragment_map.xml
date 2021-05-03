@@ -6,9 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.map.MapFragment">
 
+    <Button
+        android:id="@+id/usrLocBtn"
+        android:layout_width="134dp"
+        android:layout_height="74dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        >
+
+    </com.mapbox.mapboxsdk.maps.MapView>
 </androidx.constraintlayout.widget.ConstraintLayout>
