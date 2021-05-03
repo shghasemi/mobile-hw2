@@ -80,6 +80,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
+                zoomOnUser(null);
             }
         });
     }
