@@ -1,5 +1,7 @@
 package com.example.mobile_hw2.ui.map;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,11 +31,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback, PermissionsListener {
 
     private MapView mapView;
     private PermissionsManager permissionsManager;
     private MapboxMap mapboxMap;
+    private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -83,6 +89,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
                 zoomOnUser(null);
             }
         });
+        initSearchFab();
     }
 
     @SuppressWarnings( {"MissingPermission"})
@@ -128,5 +135,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(getActivity());
         }
+    }
+
+    private void initSearchFab() {
+        getActivity().findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new PlaceAutocomplete.IntentBuilder()
+                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                        .placeOptions(PlaceOptions.builder()
+                                .backgroundColor(Color.parseColor("#EEEEEE"))
+                                .limit(10)
+                                .build(PlaceOptions.MODE_CARDS))
+                        .build(getActivity());
+                startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+            }
+        });
     }
 }
