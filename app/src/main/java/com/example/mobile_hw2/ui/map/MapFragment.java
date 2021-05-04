@@ -49,9 +49,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
 
         mapView = (MapView) root.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
-
         root.findViewById(R.id.usrLocBtn).setOnClickListener(this::zoomOnUser);
+
+        root.findViewById(R.id.saveLocationName).setOnClickListener(this::saveLocation);
         return root;
+    }
+
+    private void saveLocation(View view) {
+        
     }
 
     @Override
