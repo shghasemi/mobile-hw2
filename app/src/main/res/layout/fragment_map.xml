@@ -21,13 +21,13 @@
         android:id="@+id/usrLocBtn"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
+        android:layout_gravity="bottom|right"
         android:layout_margin="20dp"
         android:layout_marginRight="16dp"
-        android:layout_gravity="bottom|right"
-        app:backgroundTint="@color/design_default_color_surface"
-        android:src="@drawable/ic_baseline_my_location_24"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_baseline_my_location_24"
+        app:backgroundTint="@color/design_default_color_surface"
+        app:layout_constraintBottom_toTopOf="@+id/saveLocLayout"
         app:layout_constraintRight_toRightOf="parent" />
 
     <com.mapbox.mapboxsdk.maps.MapView
@@ -39,7 +39,7 @@
     </com.mapbox.mapboxsdk.maps.MapView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/saveLocLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginStart="16dp"
@@ -48,7 +48,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
 
         <Button
