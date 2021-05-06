@@ -51,12 +51,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
         mapView.getMapAsync(this);
         root.findViewById(R.id.usrLocBtn).setOnClickListener(this::zoomOnUser);
 
-        root.findViewById(R.id.saveLocationName).setOnClickListener(this::saveLocation);
         return root;
-    }
-
-    private void saveLocation(View view) {
-        
     }
 
     @Override
@@ -139,7 +134,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
             permissionsManager.requestLocationPermissions(getActivity());
         }
     }
-    //todo onpause, onstop, ... needed?
 
     public void zoomOnUser(View view) {
         // Check if permissions are enabled and if not request
@@ -173,5 +167,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
                 startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
     }
 }
