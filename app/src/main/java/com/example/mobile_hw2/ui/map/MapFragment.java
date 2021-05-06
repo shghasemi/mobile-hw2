@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_hw2.R;
@@ -31,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
@@ -92,6 +94,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
                 zoomOnUser(null);
+                mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
+                    @Override
+                    public boolean onMapLongClick(@NonNull LatLng point) {
+//                        Toast.makeText(getActivity(), String.format("User clicked at: %s", point.toString()), Toast.LENGTH_LONG).show();
+                        getActivity().findViewById(R.id.saveLocLayout).setVisibility(View.VISIBLE);
+                        TextView latTextView = (TextView)getActivity().findViewById(R.id.latTextView);
+                        latTextView.setText(Double.toString(point.getLatitude()));
+                        TextView longTextView = (TextView)getActivity().findViewById(R.id.longTextView);
+                        longTextView.setText(Double.toString(point.getLongitude()));
+                        return true;
+                    }
+                });
             }
         });
         initSearchFab();
