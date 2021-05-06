@@ -3,7 +3,6 @@ package com.example.mobile_hw2.ui.map;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.example.mobile_hw2.R;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -25,16 +25,14 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
-import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, PermissionsListener {
 
@@ -94,6 +92,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
                 zoomOnUser(null);
+
                 mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
                     @Override
                     public boolean onMapLongClick(@NonNull LatLng point) {
@@ -103,6 +102,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
                         latTextView.setText(Double.toString(point.getLatitude()));
                         TextView longTextView = (TextView)getActivity().findViewById(R.id.longTextView);
                         longTextView.setText(Double.toString(point.getLongitude()));
+
+                        mapboxMap.clear();
+                        mapboxMap.addMarker(new MarkerOptions().position(point));
+                        //todo use SymbolManager instead of deprecated marker
                         return true;
                     }
                 });
