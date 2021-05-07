@@ -33,13 +33,6 @@ public class BookmarkDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_QUERY);
-        // TODO: remove these initial locations
-        this.insert(new Bookmark("Home", 35.11, 41.11f));
-        this.insert(new Bookmark("Work", 36.11, 40.11f));
-        this.insert(new Bookmark("Ali", 37.11, 39.11f));
-        this.insert(new Bookmark("Reza", 38.11, 38.11f));
-        this.insert(new Bookmark("Hasan", 39.11, 37.11f));
-        this.insert(new Bookmark("Sina", 40.11, 36.11f));
     }
 
     @Override

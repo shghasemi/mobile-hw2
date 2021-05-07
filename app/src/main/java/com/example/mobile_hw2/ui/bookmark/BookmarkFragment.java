@@ -26,6 +26,10 @@ public class BookmarkFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         dbHelper = new BookmarkDbHelper(getContext());
+
+        dbHelper.insert(new Bookmark("Home", 35.11, 41.11f));
+        dbHelper.insert(new Bookmark("Work", 36.11, 40.11f));
+
         handler = new BookMarkViewHandler(dbHelper);
         View view = inflater.inflate(R.layout.fragment_bookmark, container, false);
         marksView = view.findViewById(R.id.bookmarks);
