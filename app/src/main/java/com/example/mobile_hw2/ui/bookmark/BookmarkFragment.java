@@ -5,6 +5,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +35,8 @@ public class BookmarkFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bookmark, container, false);
         marksView = view.findViewById(R.id.bookmarks);
         searchView = view.findViewById(R.id.search);
-        BookmarkAdaptor bookmarkAdaptor = new BookmarkAdaptor(dbHelper.getAllMatched(null), handler);
+        BookmarkAdaptor bookmarkAdaptor = new BookmarkAdaptor(dbHelper.getAllMatched(null), handler,
+                getActivity().getSupportFragmentManager(), getActivity());
         marksView.setAdapter(bookmarkAdaptor);
         marksView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         marksView.setHasFixedSize(false);

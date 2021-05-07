@@ -154,6 +154,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
                     }
                 });
 
+                SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+                if (preferences.contains("latitude") && preferences.contains("longitude")) {
+                    zoomOnPoint(new LatLng(preferences.getFloat("latitude", 0), preferences.getFloat("longitude", 0f)));
+                }
+
                 mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
                     @Override
                     public boolean onMapClick(@NonNull LatLng point) {
