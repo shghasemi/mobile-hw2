@@ -216,6 +216,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
     }
 
     public void zoomOnPoint(LatLng point){
+        mapboxMap.clear();
+        mapboxMap.addMarker(new MarkerOptions()
+                .position(point)
+        );
         CameraPosition pos = new CameraPosition.Builder()
                 .target(point)
                 .zoom(15)
@@ -272,11 +276,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
                     // Move map camera to the selected location
                     LatLng point = new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
                             ((Point) selectedCarmenFeature.geometry()).longitude());
-                    mapboxMap.clear();
-                    mapboxMap.addMarker(new MarkerOptions()
-                            .position(point)
-                            .title(selectedCarmenFeature.placeName())
-                    );
                     zoomOnPoint(point);
                 }
             }
