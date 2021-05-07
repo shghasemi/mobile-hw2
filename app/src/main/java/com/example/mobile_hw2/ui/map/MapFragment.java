@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_hw2.R;
+import com.example.mobile_hw2.ui.bookmark.Bookmark;
+import com.example.mobile_hw2.ui.bookmark.BookmarkDbHelper;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
@@ -68,8 +71,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
         root.findViewById(R.id.usrLocBtn).setOnClickListener(this::zoomOnUser);
+        root.findViewById(R.id.saveButton).setOnClickListener(this::saveLocation);
 
         return root;
+    }
+
+    private void saveLocation(View view) {
+        TextView latTextView = (TextView)getActivity().findViewById(R.id.latTextView);
+        double lat = Double.parseDouble(latTextView.getText().toString());
+        TextView longTextView = (TextView)getActivity().findViewById(R.id.longTextView);
+        double longitude = Double.parseDouble(longTextView.getText().toString());
+        EditText nameEditText = (EditText)getActivity().findViewById(R.id.saveLocationName);
+        String name = nameEditText.getText().toString();
+        new BookmarkDbHelper(getActivity()).insert(new Bookmark(name, longitude, lat));
     }
 
     @Override
