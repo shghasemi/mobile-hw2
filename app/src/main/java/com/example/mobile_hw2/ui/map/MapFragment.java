@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +55,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
     private MapView mapView;
     private PermissionsManager permissionsManager;
     private MapboxMap mapboxMap;
+    private boolean darkMode;
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private final String geojsonSourceLayerId = "geojsonSourceLayerId";
     private final String symbolIconId = "symbolIconId";
 
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         set_dark_mode();
+        super.onCreateView(inflater, container, savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         Mapbox.getInstance(getActivity(), getString(R.string.mapbox_access_token));
         View root = inflater.inflate(R.layout.fragment_map, container, false);
@@ -114,7 +114,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+
+        // set map mode
+        String style = Style.MAPBOX_STREETS;
+        if(darkMode) {
+            getActivity().findViewById(R.id.saveLocLayout).setBackgroundColor(Color.BLACK);
+            style = Style.DARK;
+        } else {
+            getActivity().findViewById(R.id.saveLocLayout).setBackgroundColor(Color.WHITE);
+            style = Style.LIGHT;
+        }
+        mapboxMap.setStyle(style, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
@@ -204,7 +214,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
         getActivity().findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("DEBUG", "################################################### 1");
                 Intent intent = new PlaceAutocomplete.IntentBuilder()
                         .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
                         .placeOptions(PlaceOptions.builder()
@@ -232,7 +241,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
-            Log.v("DEBUG", "################################################### 2");
             // Retrieve selected location's CarmenFeature
             CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
 
@@ -300,7 +308,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
 
     private void set_dark_mode() {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        boolean darkMode = sharedPreferences.getBoolean("dark_mode", false);
+        darkMode = sharedPreferences.getBoolean("dark_mode", false);
         if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
