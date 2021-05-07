@@ -142,6 +142,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
                         return true;
                     }
                 });
+
+                mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+                    @Override
+                    public boolean onMapClick(@NonNull LatLng point) {
+                        getActivity().findViewById(R.id.saveLocLayout).setVisibility(View.GONE);
+                        return false;
+                    }
+                });
             }
         });
 
