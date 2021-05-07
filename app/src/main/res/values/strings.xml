@@ -10,8 +10,8 @@
     <string name="delete_data_title">Delete Data</string>
     <string name="delete_data_summary">Delete App Data From Phone</string>
     <string name="delete_data_confirm">Are you sure you want to delete app data?</string>
-    <string name="longitude">longitude:</string>
-    <string name="latitude">latitude:</string>
+    <string name="longitude">Long:</string>
+    <string name="latitude">Lat:</string>
 
     <!-- mapbox -->
     <string name="mapbox_access_token">pk.eyJ1IjoidGh1bmRlcmphdyIsImEiOiJja282OXh4ZTMyMTJwMnBtdnAxNXJxcDZkIn0.C6B0WI6X-3aDaus7HIwz1A</string>
