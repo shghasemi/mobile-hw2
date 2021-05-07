@@ -15,8 +15,8 @@ public class BookmarkDbHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "bookmark";
     public static final String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_NAME +
-            " (title VARCHAR(150) NOT NULL, " + " longitude FLOAT NOT NULL, " +
-            " latitude FLOAT NOT NULL, " + " PRIMARY KEY (`title`));";
+            " (title VARCHAR(150) NOT NULL, " + " latitude FLOAT NOT NULL, " +
+            " longitude FLOAT NOT NULL, " + " PRIMARY KEY (`title`));";
 
     public static final String INSERT_BOOKMARK_PATTERN = "REPLACE INTO " + TABLE_NAME + " " +
             "(title, latitude, longitude) VALUES (\"%s\", %f, %f);";
@@ -76,8 +76,8 @@ public class BookmarkDbHelper extends SQLiteOpenHelper {
         int latitudeIndex = response.getColumnIndex("latitude");
         int longitudeIndex = response.getColumnIndex("longitude");
         while (response.moveToNext()) {
-            bookmarks.add(new Bookmark(response.getString(titleIndex), response.getDouble(latitudeIndex),
-                    response.getDouble(longitudeIndex)));
+            bookmarks.add(new Bookmark(response.getString(titleIndex), response.getDouble(longitudeIndex),
+                    response.getDouble(latitudeIndex)));
         }
         return bookmarks;
     }
