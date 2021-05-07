@@ -84,6 +84,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Permiss
         EditText nameEditText = (EditText)getActivity().findViewById(R.id.saveLocationName);
         String name = nameEditText.getText().toString();
         new BookmarkDbHelper(getActivity()).insert(new Bookmark(name, longitude, lat));
+        getActivity().findViewById(R.id.saveLocLayout).setVisibility(View.GONE);
     }
 
     @Override
